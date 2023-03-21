@@ -1,0 +1,17 @@
+= [Solve] 문제 풀이 서비스 API 명세서
+
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs // 문서에 표기되는 코드들의 하이라이팅을 highlightjs를 사용
+:toc: left // toc (Table Of Contents)를 문서의 좌측에 두기
+:toclevels: 2
+:sectlinks:
+
+== Problem API
+
+=== 문제 등록(Problem Save)
+Request
+// include::{snippets}/problem/save/http-request.adoc[]
+
+Response
+// include::{snippets}/problem/save/http-response.adoc[]

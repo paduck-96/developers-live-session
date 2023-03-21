@@ -1,0 +1,73 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.4'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id "org.asciidoctor.jvm.convert" version "3.3.2"
+}
+
+group = 'com.developers.liveSession'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    asciidoctorExt
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+ext { // (5)
+    snippetsDir = file('build/generated-snippets')
+//	outputDir = file('build/docs/asciidoc')
+}
+
+test { // (6)
+    outputs.dir snippetsDir
+}
+
+asciidoctor { // (7)
+    inputs.dir snippetsDir // (8)
+    configurations 'asciidoctorExt' // (9)
+    dependsOn test // (10)
+    baseDirFollowsSourceDir() // (11)
+}
+
+task copyDocument(type: Copy) { // (12)
+    dependsOn asciidoctor
+    from file("build/docs/asciidoc/")
+    into file("src/main/resources/static/docs")
+}
+
+build { // (13)
+    dependsOn copyDocument
+}
+
+bootJar { // (14)
+    dependsOn copyDocument
+    from ("${asciidoctor.outputDir}") {
+        into 'src/main/resources/static/docs'
+    }
+}
