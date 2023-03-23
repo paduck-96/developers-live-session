@@ -13,5 +13,5 @@ public class SessionRedisSaveRequest {
     @NotNull
     private String roomId;
     @NotNull
-    private Type type;
+    private Long userId;
 }

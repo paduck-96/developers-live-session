@@ -31,7 +31,7 @@ public class SessionController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @DeleteMapping("/exit")
+    @PostMapping("/exit")
     public ResponseEntity<SessionRedisRemoveResponse> remove(@Valid @RequestBody SessionRedisRemoveRequest request) {
         SessionRedisRemoveResponse response = sessionService.remove(request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
