@@ -10,6 +10,9 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 configurations {
+    all {
+        exclude group: 'org.slf4j', module: 'slf4j-simple'
+    }
     compileOnly {
         extendsFrom annotationProcessor
     }
@@ -26,8 +29,6 @@ dependencies {
     // 오류 해결
     implementation 'io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64'
 
-    // db 정보 없으므로 제거
-    //implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -37,8 +38,14 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     annotationProcessor 'org.projectlombok:lombok'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
+    // 테스트 코드 추가
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testImplementation 'org.testcontainers:junit-jupiter:1.16.3'
+    testImplementation 'it.ozimov:embedded-redis:0.7.3'// embeded-redis
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
 }
 
 tasks.named('test') {
@@ -59,6 +66,9 @@ asciidoctor { // (7)
     configurations 'asciidoctorExt' // (9)
     dependsOn test // (10)
     baseDirFollowsSourceDir() // (11)
+    sourceDir 'src/main/asciidoc'
+    outputDir 'build/docs'
+    dependsOn test // REST Docs가 생성되기 전에 테스트를 실행
 }
 
 task copyDocument(type: Copy) { // (12)

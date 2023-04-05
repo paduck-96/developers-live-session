@@ -3,9 +3,10 @@ package com.developers.livesession.developers.configuration;
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.SocketOptions;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
@@ -19,7 +20,7 @@ import java.time.Duration;
 @Configuration
 @RequiredArgsConstructor
 public class RedisConfig {
-    @Bean
+    @Bean(name = "redisConnectionFactory")
     public RedisConnectionFactory cacheRedisConnectionFactory() {
         RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration ("127.0.0.1", 6379);
         configuration. setDatabase(0);
