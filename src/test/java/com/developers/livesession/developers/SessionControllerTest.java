@@ -1,6 +1,6 @@
 package com.developers.livesession.developers;
 
-import com.developers.livesession.developers.configuration.RedisConfig;
+import com.developers.livesession.developers.config.RedisConfig;
 import com.developers.livesession.developers.session.dto.SessionRedisSaveRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
