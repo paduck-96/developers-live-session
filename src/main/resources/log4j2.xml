@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Appenders>
+        <RollingFile name="RollingFile"
+                     fileName="./logs/${date:yyyy-MM}/app-${date:yyyy-MM-dd}.log"
+                     filePattern="./logs/${date:yyyy-MM}/app-%d{yyyy-MM-dd}-%i.log">
+            <JsonLayout compact="true" eventEol="true" properties="true"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
