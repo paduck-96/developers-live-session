@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 @Data
 public class SessionRedisRemoveRequest {
     @NotNull
-    private String roomId;
+    private String roomName;
 }

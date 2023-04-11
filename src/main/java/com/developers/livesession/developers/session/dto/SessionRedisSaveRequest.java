@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class SessionRedisSaveRequest {
     @NotNull
-    private String roomId;
+    private String roomName;
     @NotNull
-    private Long userId;
+    private String userName;
 
     @NotNull
     private Long time;

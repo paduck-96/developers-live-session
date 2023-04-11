@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RequestMapping("/live-session")
+@RequestMapping("/api/live-session")
 @Controller
 public class SessionController {
 
@@ -30,9 +30,9 @@ public class SessionController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @DeleteMapping("/exit/{roomName}")
-    public ResponseEntity<SessionRedisRemoveResponse> remove(@Valid @PathVariable String roomName) throws Exception{
-        SessionRedisRemoveResponse response = sessionService.remove(roomName);
+    @DeleteMapping("/exit")
+    public ResponseEntity<SessionRedisRemoveResponse> remove(@Valid @RequestBody SessionRedisRemoveRequest request) throws Exception{
+        SessionRedisRemoveResponse response = sessionService.remove(request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

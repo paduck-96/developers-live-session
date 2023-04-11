@@ -456,12 +456,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>POST /live-session/enter HTTP/1.1
+<pre>POST /api/live-session/enter HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 39
+Content-Length: 53
 Host: localhost:8080
 
-{"roomId":"room1","userId":1,"time":30}</pre>
+{"roomName":"room1","userName":"test-user","time":30}</pre>
 </div>
 </div>
 <div class="listingblock">
@@ -478,12 +478,12 @@ Host: localhost:8080
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>POST /live-sessions/enter HTTP/1.1
+<pre>POST /api/live-sessions/enter HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Content-Length: 41
+Content-Length: 55
 Host: localhost:8080
 
-{"roomId":"user123","userId":1,"time":60}</pre>
+{"roomName":"user123","userName":"test-user","time":60}</pre>
 </div>
 </div>
 <div class="listingblock">
@@ -508,7 +508,7 @@ Vary: Access-Control-Request-Headers</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>GET /live-session/list HTTP/1.1
+<pre>GET /api/live-session/list HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Host: localhost:8080</pre>
 </div>
@@ -527,7 +527,7 @@ Host: localhost:8080</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>GET /live-sessions HTTP/1.1
+<pre>GET /api/live-sessions HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Host: localhost:8080</pre>
 </div>
@@ -554,9 +554,12 @@ Vary: Access-Control-Request-Headers</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>DELETE /live-session/exit/room1 HTTP/1.1
+<pre>DELETE /api/live-session/exit HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Host: localhost:8080</pre>
+Content-Length: 20
+Host: localhost:8080
+
+{"roomName":"room1"}</pre>
 </div>
 </div>
 <div class="listingblock">
@@ -573,7 +576,7 @@ Host: localhost:8080</pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>DELETE /live-sessions/live-session-1 HTTP/1.1
+<pre>DELETE /api/live-sessions/SessionRedisRemoveRequest(roomName=session-room-test) HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Host: localhost:8080</pre>
 </div>

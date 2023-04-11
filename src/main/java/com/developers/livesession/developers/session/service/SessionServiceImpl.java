@@ -10,7 +10,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
 
@@ -23,24 +22,25 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public SessionRedisSaveResponse enter(SessionRedisSaveRequest request){
-        String roomId = request.getRoomId();
-        Long userId = request.getUserId();
+        String roomName = request.getRoomName();
+        String userName = request.getUserName();
         Long expireTime = request.getTime();
 
         try{
             // 1. Redis 데이터 삽입 로직 수행
-            redisTemplate.opsForSet().add(roomId, userId);
-            redisTemplate.expire(roomId, Duration.ofMinutes(expireTime));
-            redisTemplate.opsForHash().put("rooms", roomId, userId);
+            redisTemplate.opsForSet().add(roomName, userName);
+            redisTemplate.expire(roomName, Duration.ofMinutes(expireTime));
+            redisTemplate.opsForHash().put("rooms", roomName, userName);
 
             // 2. 삽입한 데이터 클라이언트에 전달
             SessionRedisSaveResponse response = SessionRedisSaveResponse.builder()
                     .code(HttpStatus.OK.toString())
                     .msg("정상적으로 처리하였습니다.")
-                    .data(redisTemplate.opsForSet().members(roomId).toString()).build();
+                    .data(redisTemplate.opsForSet().members(roomName).toString()).build();
+            logger.info("Redis 세션 저장! "+roomName+"에 "+userName+"저장!");
             return response;
         }catch (Exception e){
-            logger.error("Redis 세션 저장 오류! 방 정보: "+roomId+" 사용자 정보: "+userId, e);
+            logger.error("Redis 세션 저장 오류! 방 정보: "+roomName+" 사용자 정보: "+userName, e);
             throw new RedisException("Redis 세션 저장에 요류가 발생하였습니다. ", e);
         }
     }
@@ -65,6 +65,7 @@ public class SessionServiceImpl implements SessionService {
                     .msg("정상적으로 처리되었습니다.")
                     .data(roomsInfo.toString())
                     .build();
+            logger.info("Redis 세션 불러오기 완료!");
             return response;
         }catch(RedisException e){
             logger.error("Redis 세션 전체 출력 오류! ",e);
@@ -73,7 +74,8 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public SessionRedisRemoveResponse remove(String roomName){
+    public SessionRedisRemoveResponse remove(SessionRedisRemoveRequest request){
+        String roomName = request.getRoomName();
         try{
             if(!redisTemplate.opsForHash().hasKey("rooms", roomName)){
                 logger.error("Redis 세션 삭제 오류! ", roomName);
@@ -88,6 +90,7 @@ public class SessionServiceImpl implements SessionService {
                     .msg("정상적으로 처리되었습니다.")
                     .data(String.valueOf(redisTemplate.delete(roomName)))
                     .build();
+            logger.info("Redis 세션 삭제 완료! "+roomName+"에 대한 세션 삭제!");
             return response;
         }catch (Exception e){
             logger.error("Redis 세션 삭제 오류! ", e);

@@ -6,5 +6,5 @@ public interface SessionService {
     SessionRedisSaveResponse enter(SessionRedisSaveRequest request);
     SessionRedisFindAllResponse list();
 
-    SessionRedisRemoveResponse remove(String roomName);
+    SessionRedisRemoveResponse remove(SessionRedisRemoveRequest request);
 }

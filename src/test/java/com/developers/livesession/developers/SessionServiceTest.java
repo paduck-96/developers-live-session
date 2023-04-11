@@ -44,7 +44,7 @@ public class SessionServiceTest {
     @Test
     public void enterSuccess() {
         // Given
-        SessionRedisSaveRequest request = new SessionRedisSaveRequest("user123", 1L, 60L);
+        SessionRedisSaveRequest request = new SessionRedisSaveRequest("user123", "test-user", 60L);
 
         // When
         SessionRedisSaveResponse response = sessionService.enter(request);
@@ -56,7 +56,7 @@ public class SessionServiceTest {
     @Test
     public void enterFail() {
         // Given
-        SessionRedisSaveRequest request = new SessionRedisSaveRequest(null, 1L, 60L);
+        SessionRedisSaveRequest request = new SessionRedisSaveRequest(null, "test-user", 60L);
 
         // Then
         assertThrows(RedisException.class, () -> sessionService.enter(request));
@@ -65,7 +65,7 @@ public class SessionServiceTest {
     @Test
     public void listSuccess() {
         // Given
-        SessionRedisSaveRequest request = new SessionRedisSaveRequest("test", 1L, 60L);
+        SessionRedisSaveRequest request = new SessionRedisSaveRequest("test", "test-user", 60L);
         sessionService.enter(request);
 
         // When
@@ -78,10 +78,11 @@ public class SessionServiceTest {
     @Test
     public void removeSuccess() {
         // Given
-        sessionService.enter(new SessionRedisSaveRequest("test", 1L, 60L));
+        sessionService.enter(new SessionRedisSaveRequest("test", "test-user", 60L));
+        SessionRedisRemoveRequest request = new SessionRedisRemoveRequest("test");
 
         // When
-        SessionRedisRemoveResponse response = sessionService.remove("test");
+        SessionRedisRemoveResponse response = sessionService.remove(request);
 
         // Then
         assertNotNull(response);
@@ -94,6 +95,6 @@ public class SessionServiceTest {
         SessionRedisRemoveRequest request = new SessionRedisRemoveRequest(null);
 
         // Then
-        assertThrows(IllegalArgumentException.class, () -> sessionService.remove(request.getRoomId()));
+        assertThrows(IllegalArgumentException.class, () -> sessionService.remove(request));
     }
 }
