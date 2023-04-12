@@ -9,3 +9,4 @@ spring:
 logging:
   level:
     org.hibernate.type.descriptor.sql: trace
+  config: classpath:log4j2.yml

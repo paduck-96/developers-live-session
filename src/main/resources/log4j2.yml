@@ -1,0 +1,36 @@
+Configuration:
+    status: warn
+
+    Properties:
+        Property:
+            name: log-path
+            value: "developers-live-session"
+
+    Appenders:
+        Console:
+            name: Console_Appender
+            target: SYSTEM_OUT
+            PatternLayout:
+                pattern: '%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n'
+        RollingFile:
+            name: File_Appender
+            fileName: ./logs/${log-path}.log
+            filePattern: "./logs/${log-path}.%d{yyyy-MM-dd}.log"
+            JsonLayout:
+                compact: true
+                eventEol: true
+                properties: true
+            Policies:
+                TimeBasedTriggeringPolicy:
+                    modulate: true
+                    Interval: 1
+            DefaultRolloverStrategy:
+                max: 5
+                fileIndex: min
+
+    Loggers:
+        Root:
+            level: info
+            AppenderRef:
+                - ref: Console_Appender
+                - ref: File_Appender

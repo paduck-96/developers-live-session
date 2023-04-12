@@ -12,6 +12,7 @@ sourceCompatibility = '17'
 configurations {
     all {
         exclude group: 'org.slf4j', module: 'slf4j-simple'
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging' // 중복 sl4j2 오류 해결
 
     }
     compileOnly {
@@ -26,7 +27,9 @@ repositories {
 
 dependencies {
     // 로깅 처리
-//    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2' // loging을 위한 디펜던시; 기본 logback 삭제
+    implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.10.3' //dataformat 처리
+
 
     // redis 의존성 추가
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
