@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RequestMapping("/live-session")
+@RequestMapping("/api/live-session")
 @Controller
 public class SessionController {
 
@@ -18,21 +18,21 @@ public class SessionController {
 
     // 멘토링룸 입장하면 Redis에 채팅방 정보 삽입
     @PostMapping("/enter")
-    public ResponseEntity<SessionRedisSaveResponse> enter(@Valid @RequestBody SessionRedisSaveRequest request) {
+    public ResponseEntity<SessionRedisSaveResponse> enter(@Valid @RequestBody SessionRedisSaveRequest request) throws Exception {
         SessionRedisSaveResponse response = sessionService.enter(request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // 멘토링룸 목록 화면에서의 모든 멘토링룸 목록 조회
     @GetMapping("/list")
-    public ResponseEntity<SessionRedisFindAllResponse> list() {
+    public ResponseEntity<SessionRedisFindAllResponse> list() throws Exception {
         SessionRedisFindAllResponse response = sessionService.list();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @DeleteMapping("/exit/{roomName}")
-    public ResponseEntity<SessionRedisRemoveResponse> remove(@Valid @PathVariable String roomName) {
-        SessionRedisRemoveResponse response = sessionService.remove(roomName);
+    @DeleteMapping("/exit")
+    public ResponseEntity<SessionRedisRemoveResponse> remove(@Valid @RequestBody SessionRedisRemoveRequest request) throws Exception{
+        SessionRedisRemoveResponse response = sessionService.remove(request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

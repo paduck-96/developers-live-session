@@ -1,0 +1,26 @@
+= Live Session API
+
+== Enter
+- Success
+include::{snippets}/enter/http-request.adoc[]
+include::{snippets}/enter/http-response.adoc[]
+
+- Fail
+include::{snippets}/error/enter/http-request.adoc[]
+include::{snippets}/error/enter/http-response.adoc[]
+
+== List
+- Success
+include::{snippets}/list/http-request.adoc[]
+include::{snippets}/list/http-response.adoc[]
+- Fail
+include::{snippets}/error/list/http-request.adoc[]
+include::{snippets}/error/list/http-response.adoc[]
+
+== Exit
+- Success
+include::{snippets}/exit/http-request.adoc[]
+include::{snippets}/exit/http-response.adoc[]
+- Fail
+include::{snippets}/error/exit/http-request.adoc[]
+include::{snippets}/error/exit/http-response.adoc[]
