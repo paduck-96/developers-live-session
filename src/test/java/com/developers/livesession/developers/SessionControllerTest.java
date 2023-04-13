@@ -1,6 +1,7 @@
 package com.developers.livesession.developers;
 
 import com.developers.livesession.developers.config.RedisConfig;
+import com.developers.livesession.developers.session.dto.SessionRedisRemoveRequest;
 import com.developers.livesession.developers.session.dto.SessionRedisSaveRequest;
 import com.developers.livesession.developers.session.service.SessionServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
