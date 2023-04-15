@@ -1,6 +1,8 @@
 package com.developers.livesession.developers.session.service;
 
 import com.developers.livesession.developers.session.dto.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.lettuce.core.RedisException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -58,17 +60,24 @@ public class SessionServiceImpl implements SessionService {
                 log.error("Redis 세션 전체 출력 오류! ");
                 throw new InvalidDataAccessApiUsageException("현재 Redis 세션이 없습니다. ");
             }
+
+            // Redis 반환 값 객체 변환
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonData = mapper.writeValueAsString(roomsInfo);
+
             // 2. Redis에 있는 모든 채팅방 정보를 응답해야 한다.
             SessionRedisFindAllResponse response = SessionRedisFindAllResponse.builder()
                     .code(HttpStatus.OK.toString())
                     .msg("정상적으로 처리되었습니다.")
-                    .data(roomsInfo.toString())
+                    .data(jsonData)
                     .build();
             log.info("Redis 세션 불러오기 완료!");
             return response;
         }catch(RedisException e){
             log.error("Redis 세션 전체 출력 오류! ",e);
             throw new IllegalArgumentException("Redis 세션 전체를 불러오는데 오류가 발생했습니다. ",e);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
     }
 
