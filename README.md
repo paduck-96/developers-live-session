@@ -42,3 +42,5 @@ com.developers.livesession
 ## 사용자 인증 절차
 1. `/api/auth/login`으로 사용자 로그인 정보를 POST 방식으로 요청한다.
 2. 
+
+# Developers-live 와 코드 통합하였고 추후 변동 사항은 Developers-live 에서 진행될 
